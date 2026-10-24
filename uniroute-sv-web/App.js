@@ -17,9 +17,19 @@ import {
   Image
 } from 'react-native';
 
+// --- IMPORTACIÓN CONDICIONAL PARA COMPATIBILIDAD CON WEB Y SNACK ---
+let MapView = null;
+let Marker = null;
 
-const MapView = Platform.OS !== 'web' ? require('react-native-maps').default : null;
-const Marker = Platform.OS !== 'web' ? require('react-native-maps').Marker : null;
+if (Platform.OS !== 'web') {
+  try {
+    const Maps = require('react-native-maps');
+    MapView = Maps.default;
+    Marker = Maps.Marker;
+  } catch (e) {
+    console.log('react-native-maps no disponible');
+  }
+}
 
 // --- REQUISITOS ---
 const DOCS_ESTANDAR = [
@@ -611,8 +621,6 @@ const DATA_BASE = [
     comodidades: ['💻 Lab. Servidores', '📶 Wi-Fi Campus'],
     aceptaBeca: true
   },
-
-  // --- OFERTAS EN DEPARTAMENTOS CON HISTORIAL BAJO (LA PAZ, CABAÑAS, AHUACHAPÁN, CUSCATLÁN, MORAZÁN, LA UNIÓN) ---
   {
     id: 'lp1',
     nombre: 'ITCA-FEPADE',
@@ -2059,7 +2067,7 @@ export default function App() {
 
           <View style={{ marginTop: 16 }}>
             <Text style={styles.seccionTitulo}>🗺️ Ubicación en el mapa</Text>
-            {Boolean(uniSeleccionada.latitude && Platform.OS !== 'web' && MapView) && (
+            {Boolean(uniSeleccionada.latitude && Platform.OS !== 'web' && MapView) ? (
               <MapView
                 key={uniSeleccionada.id}
                 style={styles.mapa}
@@ -2079,6 +2087,12 @@ export default function App() {
                   description={uniSeleccionada.ubicacion}
                 />
               </MapView>
+            ) : (
+              <View style={styles.mapaPlaceholder}>
+                <Text style={styles.mapaPlaceholderTexto}>
+                  📍 Mapa disponible en dispositivos móviles / Expo Go
+                </Text>
+              </View>
             )}
 
             <View style={styles.filaBotonesMapa}>
@@ -2292,6 +2306,8 @@ const styles = StyleSheet.create({
   fotoPlaceholder: { alignItems: 'center', justifyContent: 'center', backgroundColor: '#12345F' },
   fotoPlaceholderTexto: { color: 'rgba(255,255,255,0.7)', fontSize: 11, marginTop: 6, fontWeight: '600' },
   mapa: { width: '100%', height: 180, borderRadius: 14, marginTop: 4 },
+  mapaPlaceholder: { width: '100%', height: 100, borderRadius: 14, marginTop: 4, backgroundColor: '#0B2850', justifyContent: 'center', alignItems: 'center', padding: 10, borderWidth: 1, borderColor: '#24558B' },
+  mapaPlaceholderTexto: { color: '#AFC2D8', fontSize: 13, textAlign: 'center' },
   filaBotonesMapa: { flexDirection: 'row', gap: 10, marginTop: 10 },
   botonMapa: { flex: 1, backgroundColor: '#0756B5', borderWidth: 1, borderColor: '#2B7DE0', borderRadius: 12, paddingVertical: 11, alignItems: 'center' },
   botonMapaTexto: { color: '#FFFFFF', fontWeight: 'bold', fontSize: 13 },
