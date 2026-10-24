@@ -6,7 +6,7 @@
 
 ## 🌐 Acceso a la Aplicación Web
 Puedes acceder directamente a la versión desplegada sin necesidad de inicio de sesión:
-- **Enlace Web:** `https://ideal-carnival-5vx7wrjxvgv63v9p4-8081.app.github.dev/`
+- **Enlace Web Público:** [Abrir UniRoute SV en el navegador](https://ideal-carnival-5vx7wrjxvgv63v9p4-8081.app.github.dev)
 
 ---
 
