@@ -17,19 +17,14 @@ import {
   Image
 } from 'react-native';
 
-// --- IMPORTACIÓN CONDICIONAL PARA COMPATIBILIDAD CON WEB Y SNACK ---
-let MapView = null;
-let Marker = null;
+// --- COMPONENTE DUMMY PARA WEB ---
+const MapView = ({ children, style }) => (
+  <View style={[{ backgroundColor: '#e2e8f0', justifyContent: 'center', alignItems: 'center' }, style]}>
+    {children}
+  </View>
+);
+const Marker = () => null;
 
-if (Platform.OS !== 'web') {
-  try {
-    const Maps = require('react-native-maps');
-    MapView = Maps.default;
-    Marker = Maps.Marker;
-  } catch (e) {
-    console.log('react-native-maps no disponible');
-  }
-}
 
 // --- REQUISITOS ---
 const DOCS_ESTANDAR = [
